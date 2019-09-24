@@ -40,6 +40,24 @@ class MeetupController {
     return res.json(meetups);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const meetup = await Meetup.findByPk(id, {
+      include: {
+        model: File,
+        as: 'image',
+        attributes: ['id', 'path', 'url'],
+      },
+    });
+
+    if (!meetup || meetup.user_id !== req.userId) {
+      return res.status(204).json({ error: 'Not content' });
+    }
+
+    return res.json(meetup);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       title: Yup.string().required(),
@@ -59,19 +77,19 @@ class MeetupController {
 
     const user_id = req.userId;
 
-    const {
-      id,
-      title,
-      description,
-      location,
-      date,
-      file_id,
-    } = await Meetup.create({
-      ...req.body,
-      user_id,
-    });
+    try {
+      const obj = {
+        user_id,
+        ...req.body,
+      };
+      const result = await Meetup.create(obj);
 
-    return res.json({ id, title, description, location, date, file_id });
+      const { id, title, description, location, date, file_id } = result;
+
+      return res.json({ id, title, description, location, date, file_id });
+    } catch (err) {
+      return res.status(500).json({ erro: err });
+    }
   }
 
   async update(req, res) {
