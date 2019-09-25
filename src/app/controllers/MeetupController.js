@@ -44,11 +44,13 @@ class MeetupController {
     const { id } = req.params;
 
     const meetup = await Meetup.findByPk(id, {
-      include: {
-        model: File,
-        as: 'image',
-        attributes: ['id', 'path', 'url'],
-      },
+      include: [
+        {
+          model: File,
+          as: 'image',
+          attributes: ['id', 'path', 'url'],
+        },
+      ],
     });
 
     if (!meetup || meetup.user_id !== req.userId) {
