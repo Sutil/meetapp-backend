@@ -9,7 +9,7 @@ module.exports = {
 
   down: queryInterface => {
     return queryInterface.renameColumn(
-      'meetup',
+      'meetups',
       'old_description',
       'description'
     );

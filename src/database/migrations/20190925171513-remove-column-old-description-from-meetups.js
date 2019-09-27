@@ -3,7 +3,11 @@ module.exports = {
     return queryInterface.removeColumn('meetups', 'old_description');
   },
 
-  down: queryInterface => {
-    return queryInterface.addColumn('meetups', 'old_description');
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.addColumn('meetups', 'old_description',
+      {
+        type: Sequelize.STRING,
+        allowNull: true,
+      });
   },
 };
