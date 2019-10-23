@@ -2,11 +2,11 @@ require('../bootstrap');
 
 module.exports = {
   dialect: process.env.DB_DIALECT || 'postgres',
-  host: 'localhost',
-  username: 'postgres',
-  password: 'docker',
-  database: 'meetapp',
-  port: 5434,
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
   storage: './__tests__/database.sqlite',
   define: {
     timestamps: true,
@@ -14,3 +14,4 @@ module.exports = {
     underscoredAll: true,
   },
 };
+

@@ -69,6 +69,7 @@ class MeetupController {
       file_id: Yup.number().required(),
     });
 
+    console.log('criando meetup',req.body)
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation failed' });
     }
